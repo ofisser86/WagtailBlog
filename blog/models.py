@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
@@ -30,3 +31,39 @@ class BlogPage(Page):
         FieldPanel('intro'),
         FieldPanel('body'),
     ]
+
+class BlogIndexPage(Page):
+        intro = RichTextField(blank=True)
+        @property
+        def blogs(self):
+            # Получить список страниц блога, которые являются потомками этой страницы
+            blogs = BlogPage.objects.live().descendant_of(self)
+
+            # Сортировать по дате
+            blogs = blogs.order_by('-date')
+
+            return blogs
+
+        def get_context(self,request):
+            blogs = self.blogs
+
+            # Пагинация
+            page = request.GET.get('page')
+            paginator = Paginator(blogs, 9) # Показывать 9 постов
+            try:
+                blogs = paginator.page(page)
+            except PageNotAnInteger:
+                blogs = paginator.page(1)
+            except EmptyPage:
+                blogs = paginator.page(paginator.num_page)
+
+        # Обновить контекст шаблона
+            context = super(BlogIndexPage, self).get_context(request)
+            context['blogs'] = blogs
+            # Обновить контекст шаблона
+            return context
+
+
+        content_panels = Page.content_panels + [
+                 FieldPanel('intro', classname="full")
+        ]
