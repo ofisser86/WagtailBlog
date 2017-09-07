@@ -4,12 +4,15 @@ from blog.models import *
 
 register = template.Library()
 
+
 @register.assignment_tag(takes_context=True)
 def get_site_root(context):
     return context['request'].site.root_page
 
+
 def has_menu_children(page):
     return page.get_children().live().in_menu().exists()
+
 
 @register.inclusion_tag('home/tags/top_menu.html', takes_context=True)
 def top_menu(context, parent, calling_page=None):
@@ -24,6 +27,7 @@ def top_menu(context, parent, calling_page=None):
         'request': context['request'],
     }
 
+
 @register.inclusion_tag('home/tags/top_menu_children.html', takes_context=True)
 def top_menu_children(context, parent):
     menuitems_children = parent.get_children()
@@ -31,5 +35,17 @@ def top_menu_children(context, parent):
     return {
         'parent': parent,
         'menuitems_children': menuitems_children,
+        'request': context['request'],
+    }
+
+
+@register.inclusion_tag(
+    'home/tags/blog_listing_homepage.html',
+    takes_context=True
+)
+def blog_listing_homepage(context, count=3): #count=3 выводит 3 последних поста
+    blogs = BlogPage.objects.live().order_by('-date') #фильтр по дате от последнего поста
+    return {
+        'blogs': blogs[:count].select_related('main_image'),
         'request': context['request'],
     }

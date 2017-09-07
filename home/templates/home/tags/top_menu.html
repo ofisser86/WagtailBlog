@@ -1,6 +1,6 @@
 {% load home_tags wagtailcore_tags %}
 {% get_site_root as site_root %}
-<li class="nav-item"><a href="{% pageurl site_root %}" class="menu_link_main" title="{{ site_root.title }}">Главная</a></li>
+<li class="nav-item"><a href="{% pageurl site_root %}" class="menu_link_main" title="{{ site_root.title }}">Main</a></li>
 {% for menuitem in menuitems %}
 <li class="nav-item">
     {% if menuitem.show_dropdown %}

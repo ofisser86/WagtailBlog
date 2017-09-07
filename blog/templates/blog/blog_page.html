@@ -5,16 +5,34 @@
 {% block body_class %}template-blogpage{% endblock %}
 
 {% block content %}
-{{ page.title }}
+    {% if self.get_ancestors|length > 1 %}
+        <nav>
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    {% for page in self.get_ancestors %}
+                        {% if page.is_root == False %}
+                            <a class="breadcrumb" href='{% pageurl page %}'>{{ page.title }}</a>
+                        {% endif %}
+                    {% endfor %}
 
-{{ page.date }}
+                </div>
+            </div>
+        </nav>
+    {% endif %}
+
+    <h1>{{ page.title }}</h1>
+
+    {{ page.date }}
+
+<div class="row">
+ <div class="col s12">
+    {% if page.main_image %}
+        {% image page.main_image original class="materialboxed" %}
+    {% endif %}
 
 
-{% if page.main_image %}
-{% image page.main_image width-500 %}
-{% endif %}
 
-{{ page.intro }}
-
-{{ page.body|richtext }}
+            {{ page.body|richtext }}
+        </div>
+    </div>
 {% endblock %}

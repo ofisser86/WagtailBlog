@@ -5,35 +5,84 @@
 {% block body_class %}template-blogindexpage{% endblock %}
 
 {% block content %}
-    <h1>{{ page.title }}</h1>
+    <nav>
+        <div class="nav-wrapper">
+            <div class="col s12">
+                {% if self.get_ancestors|length > 1 %}
 
- <div class="intro">{{ page.intro|richtext }}</div>
-     
- {% for blog in blogs %}
-           {% include "blog/includes/blog_list_item.html" %}
-           {% empty %}
-         Новых постов нет
-          {% endfor %}
 
+                    {% for page in self.get_ancestors %}
+                        {% if page.is_root == False %}
+                            <a class="breadcrumb" href='{% pageurl page %}'>{{ page.title }}</a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+    </nav>
+    <div class="row">
+        <div class="col s12">
+            <h1>{{ page.title }}</h1>
+
+            <div class="intro">{{ page.intro|richtext }}</div>
+
+            {% for blog in blogs %}
+                {% include "blog/includes/blog_list_item.html" %}
+            {% empty %}
+                Новых постов нет
+            {% endfor %}
+        </div>
+    </div>
+
+
+
+
+    <!-- Pagination -->
 
     <div class="row">
-              <ul class="pagination center">
-                            {% if blogs.has_previous %}
-                                            <li class="waves-effect"><a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}""><i class="material-icons">chevron_left</i></a></li>
-                                                        {% endif %}
-                    {% if blogs.has_previous %}
-  <li class="waves-effect"><a href="?page={{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"">{{ blogs.previous_page_number }}</a></li>
-                                {% endif %}
-            {% if blogs.has_next %}
-                            <li class="active"><a href="">{{ blogs.number }}</a></li>
-                                            <li class="waves-effect"><a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ blogs.next_page_number }}</a></li>
-                                                        {% else %}
-                                                                        <li class="active"><a href="">{{ blogs.number }}</a></li>
-                                                                                    {% endif %}
-                                                                                                {% if blogs.has_next %}
-                                                                                                                <li class="waves-effect"><a href="?page={{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><i class="material-icons">chevron_right</i></a></li>
-                                                                                                                            {% endif %}
-                                                                                                                                    </ul>
-                                                                                                                                        </div>
+        <ul class="pagination center">
+            {% if blogs.has_previous %}
+                <li class="waves-effect"><a href="?page=
 
- {% endblock %}
+
+
+
+                        {{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><a><i
+                        class="material-icons">chevron_left</i></a>
+                </li>
+            {% endif %}
+            {% if blogs.has_previous %}
+                <li class="waves-effect"><a href="?page=
+
+
+
+
+                        {{ blogs.previous_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ blogs.previous_page_number }}</a>
+                </li>
+            {% endif %}
+            {% if blogs.has_next %}
+                <li class="active"><a href="">{{ blogs.number }}</a></li>
+                <li class="waves-effect"><a href="?page=
+
+
+
+
+                        {{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}">{{ blogs.next_page_number }}</a>
+                </li>
+            {% else %}
+                <li class="active"><a href="">{{ blogs.number }}</a></li>
+            {% endif %}
+            {% if blogs.has_next %}
+                <li class="waves-effect"><a href="?page=
+
+
+
+
+                        {{ blogs.next_page_number }}{% for key,value in request.GET.items %}{% ifnotequal key 'page' %}&{{ key }}={{ value }}{% endifnotequal %}{% endfor %}"><i
+                        class="material-icons">chevron_right</i></a></li>
+            {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}
