@@ -2,13 +2,22 @@ from django.db import models
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from wagtail.wagtailcore.models import Page
+from wagtail.wagtailcore.fields import StreamField
 from wagtail.wagtailcore.fields import RichTextField
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailcore import blocks
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 from wagtail.wagtailsearch import index
+from wagtail.wagtailimages.blocks import ImageChooserBlock
 
 
 class BlogPage(Page):
+    body = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ])
+    author = models.CharField(max_length=255, default='admin')
     main_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -18,7 +27,6 @@ class BlogPage(Page):
     )
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
-    body = RichTextField(blank=True)
 
     search_fields = Page.search_fields + [
         index.SearchField('intro'),
@@ -26,10 +34,12 @@ class BlogPage(Page):
     ]
 
     content_panels = Page.content_panels + [
+        StreamFieldPanel('body'),
+        FieldPanel('author'),
         FieldPanel('date'),
         ImageChooserPanel('main_image'),
         FieldPanel('intro'),
-        FieldPanel('body'),
+
     ]
 
 
