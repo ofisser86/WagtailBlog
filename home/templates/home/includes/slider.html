@@ -1,14 +1,18 @@
 {% load wagtailimages_tags wagtailembeds_tags %}
 
 {% if slider_items %}
-<div class="slider" id="homeSlider">
-    <ul class="slides">
-        {% for slider_item in slider_items %}
-      <li>
-          {% image slider_item.image width-1200 as imageslider %}
-            <img src="{{ imageslider.url }}" class='home_slider' alt="{{ imageslider.alt }}" />
-      </li>
-        {% endfor %}
-    </ul>
-  </div>
+    <div class="slider" id="homeSlider">
+        <ul class="slides">
+            {% for slider_item in slider_items %}
+                <li>
+                    {% image slider_item.image width-1200 as imageslider %}
+                    <img src="{{ imageslider.url }}" class='home_slider' alt="{{ imageslider.alt }}"/>
+                    <div class="caption center-align">
+                        <h3>This is our big Tagline!</h3>
+                        <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endif %}

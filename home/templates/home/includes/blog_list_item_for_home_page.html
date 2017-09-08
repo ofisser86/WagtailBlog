@@ -1,0 +1,24 @@
+{% load static wagtailcore_tags wagtailimages_tags %}
+
+    <div class="col s6">
+        <div class="card small">
+            <div class="card-image">
+                {% if blog.main_image %}
+                    {% image blog.main_image original as img %}
+                    <div class="blur">
+                    <img class="image_tmb" src="{{ img.url }}" id="font-card"/>
+                    </div>
+                    <span class="card-title">{{ blog.title }}</span>
+                    </div>
+                {% endif %}
+            <div class="card-content">
+                <p>
+                    {{ blog.intro }}
+                </p>
+            </div>
+            <div class="card-action">
+                <a href="{% pageurl blog %}">Read</a>
+            </div>
+        </div>
+    </div>
+

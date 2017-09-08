@@ -10,3 +10,7 @@ img.responsive-img.materialboxed.initialized{
 #logo_icon{
     font-size: 70px
 }
+.blur{
+filter: blur(3px) brightness(80%);
+
+}
