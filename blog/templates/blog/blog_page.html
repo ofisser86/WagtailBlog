@@ -22,17 +22,20 @@
 
     <h1>{{ page.title }}</h1>
 
-    {{ page.date }}
-
 <div class="row">
- <div class="col s12">
+ <div class="col s12 center-align">
+
     {% if page.main_image %}
-        {% image page.main_image original class="materialboxed" %}
+        {% image page.main_image original class="responsive-img materialboxed" %}
     {% endif %}
-
-
-
+  </div>
+</div>
+ <div class="row">
+ <div class="col s12">
+            <div class="flow-text">
             {{ page.body|richtext }}
+                </div>
         </div>
     </div>
+    <p class="data flow-text"><strong>Posted on {{ blog.date }}</strong></p>
 {% endblock %}

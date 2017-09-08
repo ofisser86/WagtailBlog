@@ -32,6 +32,7 @@ class BlogPage(Page):
         FieldPanel('body'),
     ]
 
+
 class BlogIndexPage(Page):
         intro = RichTextField(blank=True)
         @property
@@ -44,18 +45,19 @@ class BlogIndexPage(Page):
 
             return blogs
 
-        def get_context(self,request):
+        def get_context(self, request):
             blogs = self.blogs
 
             # Пагинация
             page = request.GET.get('page')
-            paginator = Paginator(blogs, 9) # Показывать 9 постов
+            # Показывать 9 постов
+            paginator = Paginator(blogs, 9)
             try:
                 blogs = paginator.page(page)
             except PageNotAnInteger:
                 blogs = paginator.page(1)
             except EmptyPage:
-                blogs = paginator.page(paginator.num_page)
+                blogs = paginator.page(paginator.num_pages)
 
         # Обновить контекст шаблона
             context = super(BlogIndexPage, self).get_context(request)
