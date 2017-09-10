@@ -2,6 +2,7 @@
 
 <div class="row media-object">
     <div class="col s12">
+        <a href="{% pageurl blog %}"><h2>{{ blog.title }}</h2></a>
         {% if blog.main_image %}
             <div class="media-object-section">
                 {% image blog.main_image fill-750x300 as img %}
@@ -10,7 +11,7 @@
         {% endif %}
         <div class="media-object-section">
             <p class="data flow-text"><strong>Posted on {{ blog.date }}</strong></p>
-            <a href="{% pageurl blog %}"><h2>{{ blog.title }}</h2></a>
+
             <p class="flow-text">{{ blog.intro }}</p>
             <hr>
         </div>

@@ -43,7 +43,7 @@ def top_menu_children(context, parent):
     'home/tags/blog_listing_homepage.html',
     takes_context=True
 )
-def blog_listing_homepage(context, count=4): #count=3 выводит 3 последних поста
+def blog_listing_homepage(context, count=8): #count=3 выводит 3 последних поста
     blogs = BlogPage.objects.live().order_by('-date') #фильтр по дате от последнего поста
     return {
         'blogs': blogs[:count].select_related('main_image'),
